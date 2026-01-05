@@ -5,7 +5,7 @@
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <title>Luxury Glass Calculator</title>
-      <link rel="stylesheet" href="style.css" />
+      <link rel="stylesheet" href="css/style.css" />
    </head>
 
    <body class="dark">
@@ -14,9 +14,9 @@
 
          <!-- TOP BAR -->
          <div class="top-bar">
-            <button id="toggleTheme">🌙</button>
-            <button id="toggleSound">🔊</button>
-            <button id="historyBtn">🕘</button>
+            <button id="toggleTheme" class="darkk">🌙</button>
+            <button id="toggleSound" class="soundd">🔊</button>
+            <button id="historyBtn" class="historyy">🕘</button>
          </div>
 
          <!-- DISPLAY -->
@@ -29,16 +29,22 @@
          <div class="buttons">
             <button class="clear">C</button>
             <button class="delete">Del</button>
-            <button data-op="/">÷</button>
-            <button data-op="*">×</button>
+            <button data-op="/" class="divaidd">÷</button>
+            <button data-op="*" class="multiplai">×</button>
 
-            <button>7</button><button>8</button><button>9</button>
-            <button data-op="-">−</button>
+            <button>7</button>
+            <button>8</button>
+            <button>9</button>
+            <button data-op="-" class="mains">−</button>
 
-            <button>4</button><button>5</button><button>6</button>
-            <button data-op="+">+</button>
+            <button>4</button>
+            <button>5</button>
+            <button>6</button>
+            <button data-op="+" class="add">+</button>
 
-            <button>1</button><button>2</button><button>3</button>
+            <button>1</button>
+            <button>2</button>
+            <button>3</button>
             <button class="equal">=</button>
 
             <button class="zero">0</button>
@@ -55,7 +61,11 @@
             <button id="clearHistory" class="clear-history">Clear History</button>
          </div>
 
-         <div class="brand">SMART • GLASS • UI</div>
+         <div class="brand">
+            <a href="https://instagram.com/rambhakar_09" target="_blank">
+               RamBhakar
+            </a>
+         </div>
       </div>
 
       <script src="app.js"></script>

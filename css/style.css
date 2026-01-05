@@ -1,6 +1,8 @@
 * {
    box-sizing: border-box;
    font-family: "Poppins", "Segoe UI", sans-serif;
+   text-decoration: none;
+   
 }
 
 body {
@@ -12,19 +14,19 @@ body {
 }
 
 body.dark {
-   background: radial-gradient(circle at top, #020617, #020617 60%, #0ea5e9);
+   background: radial-gradient(circle at top, #162257, #020617 60%, #0ea5e9);
    color: #fff;
 }
 
 body.light {
-   background: radial-gradient(circle at top, #f8fafc, #e5e7eb);
+   background: radial-gradient(circle at top, #8eb5dc, #ccdf39);
    color: #000;
 }
 
 .calculator {
    width: 340px;
    border-radius: 24px;
-   backdrop-filter: blur(18px);
+   backdrop-filter: blur(50px);
    position: relative;
    overflow: hidden;
 }
@@ -40,11 +42,33 @@ body.dark .calculator {
    padding: 12px;
 }
 
-.top-bar button {
+/* .top-bar button {
    background: rgba(255, 255, 255, .15);
    border: none;
-   border-radius: 12px;
-   padding: 6px 10px;
+   border-radius: 20px;
+   padding: 1px 9px;
+   cursor: pointer;
+} */
+
+.darkk{
+   background: none;
+   font-size: 20px;
+   border: none;
+   padding: 1px 9px;
+   cursor: pointer;
+}
+.soundd {
+   background: none;
+   font-size: 20px;
+   border: none;
+   padding: 1px 9px;
+   cursor: pointer;
+}
+.historyy {
+   background: none;
+   font-size: 20px;
+   border: none;
+   padding: 1px 9px;
    cursor: pointer;
 }
 
@@ -70,18 +94,19 @@ body.dark .calculator {
    padding: 16px;
 }
 
-button {
+.buttons button {
    height: 58px;
    border: none;
    border-radius: 16px;
    font-size: 18px;
    cursor: pointer;
+   /* color: #fff; */
    background: rgba(255, 255, 255, .15);
    box-shadow: inset 4px 4px 8px rgba(0, 0, 0, .25),
-      inset -4px -4px 8px rgba(255, 255, 255, .3);
+      inset -4px -4px 8px rgba(246, 245, 245, 0.3);
 }
 
-button:active {
+.buttons button:active {
    transform: scale(.96)
 }
 
@@ -90,16 +115,41 @@ button:active {
    color: #020617 !important;
 }
 
-.equal {
-   background: linear-gradient(135deg, #22c55e, #4ade80);
+
+ .buttons .equal {
+   background: linear-gradient(135deg, #0aec5d, #026426);
    font-weight: 700;
    color: #052e16 !important;
 }
+.buttons .divaidd {
+   background: linear-gradient(135deg, #e0ab42, #b84b6d);
+   color: #e8dfdf !important;
+   font-weight: 500;
+   
+}
+.buttons .multiplai {
+   background: linear-gradient(135deg, #6dc6d1, #c86282);
+   font-weight: 500;
+   color: black !important;
+   
+}
+.buttons .mains {
+   background: linear-gradient(135deg, #d97b7b, #e068e8);;
+   font-weight: 500;
+   color: #000 !important;
+   
+}
+.buttons .add {
+   background: linear-gradient(135deg, #5855e2, #3c9557);;
+   font-weight: 500;
+   color: black !important;
+   
+}
 
-.clear,
-.delete {
-   background: linear-gradient(135deg, #ef4444, #fb7185);
-   color: #450a0a !important;
+.buttons .clear,
+.buttons .delete {
+   background: linear-gradient(135deg, #f31111, #d80bd4);;
+   font-weight: 500;
 }
 
 .zero {
@@ -142,16 +192,24 @@ button:active {
    padding: 6px 0;
    border-bottom: 1px dashed rgba(255, 255, 255, .3);
 }
-
+#clearHistory{
+   background-color: #62e492;
+   cursor: pointer;
+   padding: 3px;
+}
 .clear-history {
    width: 100%;
    margin-top: 10px;
+   color: black;
    border-radius: 12px;
 }
 
 .brand {
    text-align: center;
    font-size: 11px;
-   opacity: .6;
    padding: 10px;
+   font-weight: 200;
 }
+.brand a {
+   color: inherit;
+} 
