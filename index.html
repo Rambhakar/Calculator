@@ -4,56 +4,58 @@
    <head>
       <meta charset="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="stylesheet" href="style.css" />
       <title>Luxury Glass Calculator</title>
-
-     
+      <link rel="stylesheet" href="style.css" />
    </head>
 
-   <body>
+   <body class="dark">
 
       <div class="calculator">
 
+         <!-- TOP CONTROLS -->
+         <div class="top-bar">
+            <button id="themeBtn">🌙</button>
+            <button id="soundBtn">🔊</button>
+            <button id="historyBtn">🕘</button>
+         </div>
+
+         <!-- DISPLAY -->
          <div class="display">
             <div class="prev" id="prev"></div>
             <div class="curr" id="curr">0</div>
          </div>
 
+         <!-- BUTTONS -->
          <div class="buttons">
             <button class="clear">C</button>
             <button data-op="/">÷</button>
             <button data-op="*">×</button>
             <button data-op="-">−</button>
 
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
+            <button>7</button><button>8</button><button>9</button>
             <button data-op="+" class="operator">+</button>
 
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>.</button>
+            <button>4</button><button>5</button><button>6</button><button>.</button>
+            <button>1</button><button>2</button><button>3</button>
 
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
             <button class="equal">=</button>
-
             <button>0</button>
          </div>
 
-         <div class="history" id="history">
-            <h4 id="historyToggle">🕘 HISTORY</h4>
-            <button id="clearHistory" class="clear-history">Clear History</button>
+         <!-- HISTORY -->
+         <div class="history-panel" id="historyPanel">
+            <div class="history-head">
+               <span>Calculation History</span>
+               <button id="closeHistory">✖</button>
+            </div>
             <ul id="historyList"></ul>
+            <button id="clearHistory" class="clear-history">Clear History</button>
          </div>
 
          <div class="brand">SMART • GLASS • UI</div>
       </div>
 
-
+      <script src="app.js"></script>
    </body>
-   <script src="app.js"></script>
 
 </html>

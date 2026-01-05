@@ -1,45 +1,30 @@
 const prev = document.getElementById("prev");
 const curr = document.getElementById("curr");
 const buttons = document.querySelectorAll(".buttons button");
+
+const historyPanel = document.getElementById("historyPanel");
 const historyList = document.getElementById("historyList");
-const historyBox = document.getElementById("history");
-const historyToggle = document.getElementById("historyToggle");
-const clearHistoryBtn = document.getElementById("clearHistory");
 
 let currentValue = "";
 let previousValue = "";
 let operator = null;
+let soundOn = true;
+
+/* SOUND (LOCAL SAFE) */
+const clickSound = new Audio();
+clickSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-modern-click-box-check-1120.mp3";
+
+function feedback() {
+   if (soundOn) {
+      clickSound.currentTime = 0;
+      clickSound.play();
+   }
+   if (navigator.vibrate) navigator.vibrate(15);
+}
 
 function updateDisplay() {
    curr.innerText = currentValue || "0";
    prev.innerText = operator ? `${previousValue} ${operator}` : "";
-}
-
-function saveHistory() {
-   localStorage.setItem("calcHistory", historyList.innerHTML);
-}
-
-function loadHistory() {
-   const saved = localStorage.getItem("calcHistory");
-   if (saved) {
-      historyList.innerHTML = saved;
-      historyBox.classList.add("open");
-   } else {
-      historyList.innerHTML = '<li class="empty">No calculations yet</li>';
-   }
-}
-
-function addToHistory(text) {
-   historyBox.classList.add("open");
-
-   if (historyList.querySelector(".empty")) {
-      historyList.innerHTML = "";
-   }
-
-   const li = document.createElement("li");
-   li.innerText = `📌 ${text}`;
-   historyList.prepend(li);
-   saveHistory();
 }
 
 function calculate() {
@@ -47,28 +32,32 @@ function calculate() {
    const b = parseFloat(currentValue);
    if (isNaN(a) || isNaN(b)) return;
 
-   let result;
-   switch (operator) {
-      case "+": result = a + b; break;
-      case "-": result = a - b; break;
-      case "*": result = a * b; break;
-      case "/": result = b === 0 ? "Error" : a / b; break;
-   }
+   let r;
+   if (operator === "+") r = a + b;
+   if (operator === "-") r = a - b;
+   if (operator === "*") r = a * b;
+   if (operator === "/") r = b === 0 ? "Error" : a / b;
 
-   addToHistory(`${previousValue} ${operator} ${currentValue} = ${result}`);
-   currentValue = result.toString();
+   historyList.innerHTML =
+      `<li>${previousValue} ${operator} ${currentValue} = ${r}</li>` +
+      historyList.innerHTML;
+
+   localStorage.setItem("calcHistory", historyList.innerHTML);
+
+   currentValue = r.toString();
    previousValue = "";
    operator = null;
    updateDisplay();
 }
 
+/* BUTTON CLICK */
 buttons.forEach(btn => {
-   btn.addEventListener("click", () => {
-      const value = btn.innerText;
+   btn.onclick = () => {
+      feedback();
+      const v = btn.innerText;
 
       if (btn.classList.contains("clear")) {
-         currentValue = "";
-         previousValue = "";
+         currentValue = previousValue = "";
          operator = null;
          updateDisplay();
          return;
@@ -80,28 +69,62 @@ buttons.forEach(btn => {
       }
 
       if (btn.dataset.op) {
-         if (currentValue === "") return;
-         if (previousValue !== "") calculate();
-         operator = btn.dataset.op;
+         if (!currentValue) return;
          previousValue = currentValue;
+         operator = btn.dataset.op;
          currentValue = "";
          updateDisplay();
          return;
       }
 
-      if (value === "." && currentValue.includes(".")) return;
-      currentValue += value;
+      if (v === "." && currentValue.includes(".")) return;
+      currentValue += v;
       updateDisplay();
-   });
+   };
 });
 
-clearHistoryBtn.addEventListener("click", () => {
+/* KEYBOARD */
+document.addEventListener("keydown", e => {
+   if ("0123456789.".includes(e.key)) {
+      currentValue += e.key;
+      updateDisplay();
+   }
+   if ("+-*/".includes(e.key)) {
+      previousValue = currentValue;
+      operator = e.key;
+      currentValue = "";
+      updateDisplay();
+   }
+   if (e.key === "Enter") calculate();
+   if (e.key === "Backspace") {
+      currentValue = currentValue.slice(0, -1);
+      updateDisplay();
+   }
+});
+
+/* HISTORY */
+document.getElementById("historyBtn").onclick = () =>
+   historyPanel.classList.add("open");
+
+document.getElementById("closeHistory").onclick = () =>
+   historyPanel.classList.remove("open");
+
+document.getElementById("clearHistory").onclick = () => {
+   historyList.innerHTML = "";
    localStorage.removeItem("calcHistory");
-   historyList.innerHTML = '<li class="empty">No calculations yet</li>';
-});
+};
 
-historyToggle.addEventListener("click", () => {
-   historyBox.classList.toggle("open");
-});
+/* THEME */
+document.getElementById("themeBtn").onclick = () => {
+   document.body.classList.toggle("light");
+   document.body.classList.toggle("dark");
+};
 
-loadHistory();
+/* SOUND TOGGLE */
+document.getElementById("soundBtn").onclick = (e) => {
+   soundOn = !soundOn;
+   e.target.innerText = soundOn ? "🔊" : "🔇";
+};
+
+/* LOAD HISTORY */
+historyList.innerHTML = localStorage.getItem("calcHistory") || "";
