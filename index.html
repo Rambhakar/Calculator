@@ -12,10 +12,10 @@
 
       <div class="calculator">
 
-         <!-- TOP CONTROLS -->
+         <!-- TOP BAR -->
          <div class="top-bar">
-            <button id="themeBtn">🌙</button>
-            <button id="soundBtn">🔊</button>
+            <button id="toggleTheme">🌙</button>
+            <button id="toggleSound">🔊</button>
             <button id="historyBtn">🕘</button>
          </div>
 
@@ -28,24 +28,27 @@
          <!-- BUTTONS -->
          <div class="buttons">
             <button class="clear">C</button>
+            <button class="delete">⌫</button>
             <button data-op="/">÷</button>
             <button data-op="*">×</button>
-            <button data-op="-">−</button>
 
             <button>7</button><button>8</button><button>9</button>
-            <button data-op="+" class="operator">+</button>
+            <button data-op="-">−</button>
 
-            <button>4</button><button>5</button><button>6</button><button>.</button>
+            <button>4</button><button>5</button><button>6</button>
+            <button data-op="+">+</button>
+
             <button>1</button><button>2</button><button>3</button>
-
             <button class="equal">=</button>
-            <button>0</button>
+
+            <button class="zero">0</button>
+            <button>.</button>
          </div>
 
          <!-- HISTORY -->
          <div class="history-panel" id="historyPanel">
             <div class="history-head">
-               <span>Calculation History</span>
+               <span>History</span>
                <button id="closeHistory">✖</button>
             </div>
             <ul id="historyList"></ul>

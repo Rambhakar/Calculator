@@ -10,16 +10,16 @@ let previousValue = "";
 let operator = null;
 let soundOn = true;
 
-/* SOUND (LOCAL SAFE) */
-const clickSound = new Audio();
-clickSound.src = "https://assets.mixkit.co/sfx/preview/mixkit-modern-click-box-check-1120.mp3";
+/* SOUND (RESET FIX) */
+const clickSound = new Audio(
+   "https://assets.mixkit.co/sfx/preview/mixkit-soft-click-1126.mp3"
+);
 
-function feedback() {
-   if (soundOn) {
-      clickSound.currentTime = 0;
-      clickSound.play();
-   }
-   if (navigator.vibrate) navigator.vibrate(15);
+function playSound() {
+   if (!soundOn) return;
+   clickSound.currentTime = 0;
+   clickSound.play();
+   navigator.vibrate?.(15);
 }
 
 function updateDisplay() {
@@ -38,11 +38,9 @@ function calculate() {
    if (operator === "*") r = a * b;
    if (operator === "/") r = b === 0 ? "Error" : a / b;
 
-   historyList.innerHTML =
-      `<li>${previousValue} ${operator} ${currentValue} = ${r}</li>` +
-      historyList.innerHTML;
-
-   localStorage.setItem("calcHistory", historyList.innerHTML);
+   const entry = `${previousValue} ${operator} ${currentValue} = ${r}`;
+   historyList.innerHTML = `<li>${entry}</li>` + historyList.innerHTML;
+   localStorage.setItem("history", historyList.innerHTML);
 
    currentValue = r.toString();
    previousValue = "";
@@ -50,22 +48,25 @@ function calculate() {
    updateDisplay();
 }
 
-/* BUTTON CLICK */
+/* BUTTON LOGIC */
 buttons.forEach(btn => {
    btn.onclick = () => {
-      feedback();
+      playSound();
       const v = btn.innerText;
 
       if (btn.classList.contains("clear")) {
          currentValue = previousValue = "";
          operator = null;
-         updateDisplay();
-         return;
+         updateDisplay(); return;
+      }
+
+      if (btn.classList.contains("delete")) {
+         currentValue = currentValue.slice(0, -1);
+         updateDisplay(); return;
       }
 
       if (btn.classList.contains("equal")) {
-         calculate();
-         return;
+         calculate(); return;
       }
 
       if (btn.dataset.op) {
@@ -73,58 +74,34 @@ buttons.forEach(btn => {
          previousValue = currentValue;
          operator = btn.dataset.op;
          currentValue = "";
-         updateDisplay();
-         return;
+         updateDisplay(); return;
       }
 
       if (v === "." && currentValue.includes(".")) return;
       currentValue += v;
       updateDisplay();
-   };
-});
-
-/* KEYBOARD */
-document.addEventListener("keydown", e => {
-   if ("0123456789.".includes(e.key)) {
-      currentValue += e.key;
-      updateDisplay();
-   }
-   if ("+-*/".includes(e.key)) {
-      previousValue = currentValue;
-      operator = e.key;
-      currentValue = "";
-      updateDisplay();
-   }
-   if (e.key === "Enter") calculate();
-   if (e.key === "Backspace") {
-      currentValue = currentValue.slice(0, -1);
-      updateDisplay();
    }
 });
 
 /* HISTORY */
-document.getElementById("historyBtn").onclick = () =>
-   historyPanel.classList.add("open");
-
-document.getElementById("closeHistory").onclick = () =>
-   historyPanel.classList.remove("open");
-
-document.getElementById("clearHistory").onclick = () => {
+historyBtn.onclick = () => historyPanel.classList.add("open");
+closeHistory.onclick = () => historyPanel.classList.remove("open");
+clearHistory.onclick = () => {
    historyList.innerHTML = "";
-   localStorage.removeItem("calcHistory");
+   localStorage.removeItem("history");
 };
 
 /* THEME */
-document.getElementById("themeBtn").onclick = () => {
-   document.body.classList.toggle("light");
+toggleTheme.onclick = () => {
    document.body.classList.toggle("dark");
+   document.body.classList.toggle("light");
 };
 
 /* SOUND TOGGLE */
-document.getElementById("soundBtn").onclick = (e) => {
+toggleSound.onclick = (e) => {
    soundOn = !soundOn;
    e.target.innerText = soundOn ? "🔊" : "🔇";
 };
 
 /* LOAD HISTORY */
-historyList.innerHTML = localStorage.getItem("calcHistory") || "";
+historyList.innerHTML = localStorage.getItem("history") || "";
