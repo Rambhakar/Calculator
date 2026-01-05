@@ -42,7 +42,9 @@ body.light .calculator {
 body.light .buttons button {
    color: #000;
 }
-
+body.light .history-panel{
+   color: #fff !important;
+}
 .top-bar {
    display: flex;
    justify-content: space-between;
